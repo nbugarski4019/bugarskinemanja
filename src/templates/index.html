@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="jquery.dataTables.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#pretraga").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+<style>
+table {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #000000;
+  text-align: left;
+  padding: 12px 10px;
+}
+
+#myTable tr td:nth-child(even) {
+    background: #7BE3FF;
+}
+
+#myTable tr td:nth-child(odd) {
+    background: #00679B;
+}
+</style>
+</head>
+<body>
+
+<h4 style="text-align: center;">Bugarski Nemanja S40/19</h4>
+
+<input id="pretraga" type="text" placeholder="Search.." style="float: right; width: 300px" value="">
+<br><br>
+
+<table>
+  <thead>
+  <th>Predmet</th>
+  <th>Tip</th>
+	<th>Nastavnik</th>
+	<th>Grupe</th>
+  <th>Dan</th>
+	<th>Termin</th>
+	<th>Ucionica</th>
+  
+  </thead>
+{% for raspored in rasporedi %}
+  <tbody id="myTable">
+
+  <tr>
+	  
+	<td class="jedan">{{raspored['predmet']}}</td>
+  <td class="dva">{{raspored['tip']}}</td>
+	<td class="tri">{{raspored['nastavnik']}}</td>
+	<td class="cetiri">{{raspored['grupe']}}</td>
+	<td class="pet">{{raspored['dan']}}</td>
+	<td class="sest">{{raspored['termin']}}</td>
+	<td class="sedam">{{raspored['ucionica']}}</td>
+  </tr>
+ 
+  </tbody>
+  {% endfor %}
+
+
+   
+</table>
+
+
+<br> <br>
+
+<table style="width: 350px;" style="margin:0 auto;">
+	<thead>
+	<tr>
+	 
+	  <th>Nastavnik</th>
+	  <th>Ucionica</th>
+	</tr>
+	
+	</thead>
+  {% for raspored in ostali %}
+	<tbody id="minitabela">
+  
+    <tr>
+      <td id="nastavnik" > <a href="#" > {{raspored['nastavnik']}} </a></td>
+      <td id="ucionica">  <a href="#" >{{raspored['ucionica']}} </a></td>
+    </tr>
+  
+   
+	</tbody>
+	{% endfor %}
+  
+  
+  </table>
+  
+  
+  <script>
+    $(document).on("click", "a", function(){
+      
+      $("#pretraga").val($("#nastavnik").text().toLowerCase()); 
+      $('#nastavnik a').click(function(e) {
+   var txt = $(e.target).text();
+   console.log(txt);
+ });
+     
+ 
+   $("#pretraga").on(function() {
+     var txt =$(e.target).text();
+ 
+     $("#myTable td").filter(function() {
+       $(txt).toggle($(txt).text().toLowerCase().indexOf(txt) > -1)
+     });
+   });
+ });
+ </script>
+
+
+
+
+</body>
+
+
+
+
+
+</html>
